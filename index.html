@@ -195,16 +195,56 @@
             transform: scale(1) translateY(0);
         }
 
-        .gift-box {
-            font-size: 40px;
-            margin-bottom: 10px;
-            animation: bounce 1s ease-in-out;
+        .gift-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+        .gift-box {
+            font-size: 60px;
+            margin-bottom: 10px;
+            animation: bounce 1s ease-in-out;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+
+        .gift-box.open {
+            animation: openBox 1s ease-in-out forwards;
+        }
+
+        @keyframes openBox {
+            0% { transform: scale(1) rotateY(0deg); }
+            50% { transform: scale(1.2) rotateY(180deg); }
+            100% { transform: scale(0) rotateY(360deg); opacity: 0; }
+        }
+
+        .gold-sparkles {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            opacity: 0;
+            animation: sparkle 1.5s ease-in-out 0.5s forwards;
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0; transform: translateX(-50%) scale(0); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.5); }
+            100% { opacity: 0; transform: translateX(-50%) scale(0); }
+        }
+
+        .blessing-text {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease 1s, transform 0.5s ease 1s;
+        }
+
+        .blessing-text.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         footer {
@@ -236,13 +276,16 @@
 
         <main class="hero">
             <h1>🎄 圣诞祝福 🎄</h1>
-            <p class="lead">点击下方按钮，随机抽取一个圣诞祝福语，让节日更温馨！</p>
+
             
             <div class="draw-section">
                 <button class="cta" id="blessBtn">✨ 抽取祝福</button>
                 <div id="blessing" class="blessing" style="display: none;">
-                    <div class="gift-box">🎁</div>
-                    <p id="blessingText"></p>
+                    <div class="gift-container">
+                        <div class="gift-box" id="giftBox">🎁</div>
+                        <div class="gold-sparkles" id="sparkles"></div>
+                    </div>
+                    <p id="blessingText" class="blessing-text"></p>
                 </div>
             </div>
         </main>
@@ -316,11 +359,25 @@
             if (!hasDrawn) {
                 const randomBlessing = blessings[Math.floor(Math.random() * blessings.length)];
                 const blessingText = document.getElementById('blessingText');
+                const giftBox = document.getElementById('giftBox');
+                const sparkles = document.getElementById('sparkles');
+                
                 blessingText.textContent = randomBlessing;
                 blessingDiv.style.display = 'block';
                 // 触发重绘
                 blessingDiv.offsetHeight;
                 blessingDiv.classList.add('show');
+                
+                // 动画序列
+                setTimeout(() => {
+                    giftBox.classList.add('open');
+                    sparkles.textContent = '✨✨✨';
+                }, 500); // 盒子先弹跳0.5s后打开
+                
+                setTimeout(() => {
+                    blessingText.classList.add('show');
+                }, 1500); // 1.5s后显示祝福语
+                
                 hasDrawn = true;
             } else {
                 const messageIndex = Math.min(clickCount - 1, messages.length - 1);
