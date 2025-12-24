@@ -185,6 +185,26 @@
             font-size: 18px;
             font-weight: 600;
             color: var(--evergreen);
+            opacity: 0;
+            transform: scale(0.8) translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .blessing.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .gift-box {
+            font-size: 40px;
+            margin-bottom: 10px;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
         footer {
@@ -220,7 +240,10 @@
             
             <div class="draw-section">
                 <button class="cta" id="blessBtn">✨ 抽取祝福</button>
-                <div id="blessing" class="blessing" style="display: none;"></div>
+                <div id="blessing" class="blessing" style="display: none;">
+                    <div class="gift-box">🎁</div>
+                    <p id="blessingText"></p>
+                </div>
             </div>
         </main>
     </div>
@@ -288,8 +311,12 @@
 
         blessBtn.addEventListener('click', () => {
             const randomBlessing = blessings[Math.floor(Math.random() * blessings.length)];
-            blessingDiv.innerHTML = `<p>${randomBlessing}</p>`;
+            const blessingText = document.getElementById('blessingText');
+            blessingText.textContent = randomBlessing;
             blessingDiv.style.display = 'block';
+            // 触发重绘
+            blessingDiv.offsetHeight;
+            blessingDiv.classList.add('show');
         });
     </script>
 </body>
