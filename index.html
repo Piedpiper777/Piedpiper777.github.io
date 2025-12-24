@@ -309,7 +309,14 @@
             "愿圣诞的灯光照亮你的前程，带来好运连连。"
         ];
 
+        let hasDrawn = false;
+
         blessBtn.addEventListener('click', () => {
+            if (hasDrawn) {
+                alert('别太贪了😅');
+                return;
+            }
+            
             const randomBlessing = blessings[Math.floor(Math.random() * blessings.length)];
             const blessingText = document.getElementById('blessingText');
             blessingText.textContent = randomBlessing;
@@ -317,6 +324,7 @@
             // 触发重绘
             blessingDiv.offsetHeight;
             blessingDiv.classList.add('show');
+            hasDrawn = true;
         });
     </script>
 </body>
