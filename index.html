@@ -222,7 +222,7 @@
         </footer>
     </div>
 
-    <audio autoplay muted loop preload="auto" style="display: none;" id="bgm">
+    <audio loop preload="auto" style="display: none;" id="bgm">
         <source src="BGM-国王大道（雪国仙境）.mp3" type="audio/mpeg">
         您的浏览器不支持音频播放。
     </audio>
@@ -230,17 +230,31 @@
     <script>
         const audio = document.getElementById('bgm');
         const muteBtn = document.getElementById('muteBtn');
+        let isPlaying = false;
 
         function updateButton() {
-            if (audio.muted) {
+            if (!isPlaying) {
+                muteBtn.innerHTML = '🎵 播放音乐';
+            } else if (audio.muted) {
                 muteBtn.innerHTML = '🔇 静音';
             } else {
                 muteBtn.innerHTML = '🔊 音乐';
             }
         }
 
-        muteBtn.addEventListener('click', () => {
-            audio.muted = !audio.muted;
+        muteBtn.addEventListener('click', async () => {
+            if (!isPlaying) {
+                try {
+                    await audio.play();
+                    isPlaying = true;
+                    audio.muted = false; // 确保不静音
+                } catch (error) {
+                    alert('无法播放音频，请检查浏览器设置或点击允许自动播放。');
+                    return;
+                }
+            } else {
+                audio.muted = !audio.muted;
+            }
             updateButton();
         });
 
