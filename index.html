@@ -166,6 +166,36 @@
             line-height: 1.6;
         }
 
+        .draw-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .draw-section textarea {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            font-family: inherit;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .results p {
+            margin: 8px 0;
+            font-weight: 500;
+        }
+
         footer {
             margin-top: 42px;
             color: var(--text-muted);
@@ -194,27 +224,14 @@
         </header>
 
         <main class="hero">
-            <h1>欢迎来到圣诞夜</h1>
-            <p class="lead">灯火与松枝编织的夜晚，留给自己一杯可可，也为远方的朋友点亮祝福。这里是你的圣诞主题首页，愿每一次来访都能带走一点温暖。</p>
-            <a class="cta" href="#wishlist">
-                🎄 写下心愿
-                <small>愿望清单为你守护</small>
-            </a>
-
-            <section class="grid" id="wishlist">
-                <article class="card">
-                    <h3>松针香气</h3>
-                    <p>把房间装点成森林，伴随清新的树脂味，写下今年的感谢与愿望。</p>
-                </article>
-                <article class="card">
-                    <h3>礼物待拆</h3>
-                    <p>准备一份小礼物，无论送谁，都让期待本身成为值得庆祝的理由。</p>
-                </article>
-                <article class="card">
-                    <h3>雪花播放</h3>
-                    <p>挑一首让你想起冬夜的歌，让音乐与飘落的雪点亮这一刻的氛围。</p>
-                </article>
-            </section>
+            <h1>🎄 圣诞抽签 🎄</h1>
+            <p class="lead">输入参与者名字（用逗号分隔），点击开始抽签，生成Secret Santa分配！</p>
+            
+            <div class="draw-section">
+                <textarea id="namesInput" placeholder="例如：小明,小红,小刚,小丽" rows="3"></textarea>
+                <button class="cta" id="drawBtn">🎁 开始抽签</button>
+                <div id="results" class="results" style="display: none;"></div>
+            </div>
         </main>
 
         <footer>
@@ -260,6 +277,61 @@
 
         // 初始化按钮状态
         updateButton();
+
+        // 圣诞抽签逻辑
+        const namesInput = document.getElementById('namesInput');
+        const drawBtn = document.getElementById('drawBtn');
+        const resultsDiv = document.getElementById('results');
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateSecretSanta(names) {
+            const shuffled = shuffle([...names]);
+            const assignments = {};
+            
+            for (let i = 0; i < names.length; i++) {
+                assignments[names[i]] = shuffled[i];
+            }
+            
+            // 检查是否有自己抽到自己，如果有，重新生成
+            for (let giver in assignments) {
+                if (giver === assignments[giver]) {
+                    return generateSecretSanta(names);
+                }
+            }
+            
+            return assignments;
+        }
+
+        drawBtn.addEventListener('click', () => {
+            const namesText = namesInput.value.trim();
+            if (!namesText) {
+                alert('请输入参与者名字！');
+                return;
+            }
+            
+            const names = namesText.split(',').map(name => name.trim()).filter(name => name);
+            if (names.length < 2) {
+                alert('至少需要2个参与者！');
+                return;
+            }
+            
+            const assignments = generateSecretSanta(names);
+            
+            let resultsHTML = '<h3>🎅 抽签结果 🎅</h3>';
+            for (let giver in assignments) {
+                resultsHTML += `<p><strong>${giver}</strong> → 送礼物给 <strong>${assignments[giver]}</strong></p>`;
+            }
+            
+            resultsDiv.innerHTML = resultsHTML;
+            resultsDiv.style.display = 'block';
+        });
     </script>
 </body>
 </html>
