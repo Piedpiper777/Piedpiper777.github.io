@@ -292,39 +292,40 @@
         const blessingDiv = document.getElementById('blessing');
 
         const blessings = [
-            "愿你的圣诞充满欢笑与温暖，如同雪花般纯净。",
-            "圣诞快乐！愿新的一年带来更多幸福与惊喜。",
-            "在这个特别的节日，愿你身边满是爱与关怀。",
-            "圣诞夜的星星为你闪烁，带来好运与平安。",
-            "愿圣诞老人带给你梦想中的礼物和无尽的快乐。",
-            "圣诞祝福：愿你的心永远像圣诞树一样璀璨。",
-            "在这个白色圣诞，愿你的生活充满甜蜜与光明。",
-            "圣诞快乐！愿所有的愿望都能成真。",
-            "愿圣诞的魔力带给你无限的喜悦与和谐。",
-            "圣诞夜，愿你与家人共享温馨时刻。",
-            "愿圣诞的雪花洗去烦恼，带来新的希望。",
-            "圣诞祝福：愿你的每一天都像节日般精彩。",
-            "在这个欢乐的季节，愿你收获满满的幸福。",
-            "圣诞快乐！愿爱与和平永远陪伴你。",
-            "愿圣诞的灯光照亮你的前程，带来好运连连。"
+            "圣诞快乐！愿新的一年带来更多幸福与惊喜。"
         ];
 
         let hasDrawn = false;
+        let clickCount = 0;
+
+        const messages = [
+            null, // 第一次是抽祝福，不用消息
+            '别太贪了😅',
+            '别点了🤯',
+            '都说了别带你了🤬',
+            '再点我就生气了😠',
+            '你这是要挑战我的底线吗？😤',
+            '好吧，你赢了...但祝福只有一个！🎁',
+            '圣诞快乐，别再点了！🎄',
+            '系统崩溃中...请稍后重试（其实没有）💥'
+        ];
 
         blessBtn.addEventListener('click', () => {
-            if (hasDrawn) {
-                alert('别太贪了😅');
-                return;
-            }
+            clickCount++;
             
-            const randomBlessing = blessings[Math.floor(Math.random() * blessings.length)];
-            const blessingText = document.getElementById('blessingText');
-            blessingText.textContent = randomBlessing;
-            blessingDiv.style.display = 'block';
-            // 触发重绘
-            blessingDiv.offsetHeight;
-            blessingDiv.classList.add('show');
-            hasDrawn = true;
+            if (!hasDrawn) {
+                const randomBlessing = blessings[Math.floor(Math.random() * blessings.length)];
+                const blessingText = document.getElementById('blessingText');
+                blessingText.textContent = randomBlessing;
+                blessingDiv.style.display = 'block';
+                // 触发重绘
+                blessingDiv.offsetHeight;
+                blessingDiv.classList.add('show');
+                hasDrawn = true;
+            } else {
+                const messageIndex = Math.min(clickCount - 1, messages.length - 1);
+                alert(messages[messageIndex]);
+            }
         });
     </script>
 </body>
