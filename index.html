@@ -172,28 +172,19 @@
             gap: 16px;
             max-width: 500px;
             margin: 0 auto;
+            align-items: center;
         }
 
-        .draw-section textarea {
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            font-family: inherit;
-            font-size: 16px;
-            resize: vertical;
-        }
-
-        .results {
+        .blessing {
             margin-top: 20px;
-            padding: 16px;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
             border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .results p {
-            margin: 8px 0;
-            font-weight: 500;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--evergreen);
         }
 
         footer {
@@ -224,19 +215,14 @@
         </header>
 
         <main class="hero">
-            <h1>🎄 圣诞抽签 🎄</h1>
-            <p class="lead">输入参与者名字（用逗号分隔），点击开始抽签，生成Secret Santa分配！</p>
+            <h1>🎄 圣诞祝福 🎄</h1>
+            <p class="lead">点击下方按钮，随机抽取一个圣诞祝福语，让节日更温馨！</p>
             
             <div class="draw-section">
-                <textarea id="namesInput" placeholder="例如：小明,小红,小刚,小丽" rows="3"></textarea>
-                <button class="cta" id="drawBtn">🎁 开始抽签</button>
-                <div id="results" class="results" style="display: none;"></div>
+                <button class="cta" id="blessBtn">✨ 抽取祝福</button>
+                <div id="blessing" class="blessing" style="display: none;"></div>
             </div>
         </main>
-
-        <footer>
-            若想加入更多内容，随时编辑 [index.html](index.html)。祝你圣诞快乐，代码顺利！
-        </footer>
     </div>
 
     <audio loop preload="auto" style="display: none;" id="bgm">
@@ -278,59 +264,32 @@
         // 初始化按钮状态
         updateButton();
 
-        // 圣诞抽签逻辑
-        const namesInput = document.getElementById('namesInput');
-        const drawBtn = document.getElementById('drawBtn');
-        const resultsDiv = document.getElementById('results');
+        // 圣诞祝福抽取逻辑
+        const blessBtn = document.getElementById('blessBtn');
+        const blessingDiv = document.getElementById('blessing');
 
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+        const blessings = [
+            "愿你的圣诞充满欢笑与温暖，如同雪花般纯净。",
+            "圣诞快乐！愿新的一年带来更多幸福与惊喜。",
+            "在这个特别的节日，愿你身边满是爱与关怀。",
+            "圣诞夜的星星为你闪烁，带来好运与平安。",
+            "愿圣诞老人带给你梦想中的礼物和无尽的快乐。",
+            "圣诞祝福：愿你的心永远像圣诞树一样璀璨。",
+            "在这个白色圣诞，愿你的生活充满甜蜜与光明。",
+            "圣诞快乐！愿所有的愿望都能成真。",
+            "愿圣诞的魔力带给你无限的喜悦与和谐。",
+            "圣诞夜，愿你与家人共享温馨时刻。",
+            "愿圣诞的雪花洗去烦恼，带来新的希望。",
+            "圣诞祝福：愿你的每一天都像节日般精彩。",
+            "在这个欢乐的季节，愿你收获满满的幸福。",
+            "圣诞快乐！愿爱与和平永远陪伴你。",
+            "愿圣诞的灯光照亮你的前程，带来好运连连。"
+        ];
 
-        function generateSecretSanta(names) {
-            const shuffled = shuffle([...names]);
-            const assignments = {};
-            
-            for (let i = 0; i < names.length; i++) {
-                assignments[names[i]] = shuffled[i];
-            }
-            
-            // 检查是否有自己抽到自己，如果有，重新生成
-            for (let giver in assignments) {
-                if (giver === assignments[giver]) {
-                    return generateSecretSanta(names);
-                }
-            }
-            
-            return assignments;
-        }
-
-        drawBtn.addEventListener('click', () => {
-            const namesText = namesInput.value.trim();
-            if (!namesText) {
-                alert('请输入参与者名字！');
-                return;
-            }
-            
-            const names = namesText.split(',').map(name => name.trim()).filter(name => name);
-            if (names.length < 2) {
-                alert('至少需要2个参与者！');
-                return;
-            }
-            
-            const assignments = generateSecretSanta(names);
-            
-            let resultsHTML = '<h3>🎅 抽签结果 🎅</h3>';
-            for (let giver in assignments) {
-                resultsHTML += `<p><strong>${giver}</strong> → 送礼物给 <strong>${assignments[giver]}</strong></p>`;
-            }
-            
-            resultsDiv.innerHTML = resultsHTML;
-            resultsDiv.style.display = 'block';
+        blessBtn.addEventListener('click', () => {
+            const randomBlessing = blessings[Math.floor(Math.random() * blessings.length)];
+            blessingDiv.innerHTML = `<p>${randomBlessing}</p>`;
+            blessingDiv.style.display = 'block';
         });
     </script>
 </body>
