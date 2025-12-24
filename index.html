@@ -117,6 +117,25 @@
 
         .cta small { font-weight: 500; color: rgba(255, 255, 255, 0.86); }
 
+        .mute-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--evergreen);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background 160ms ease, transform 160ms ease;
+        }
+
+        .mute-btn:hover { background: rgba(255, 255, 255, 1); transform: translateY(-1px); }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -171,6 +190,7 @@
         <header>
             <span aria-hidden="true"></span>
             圣诞夜 · 祝福已送达
+            <button class="mute-btn" id="muteBtn">🔊 音乐</button>
         </header>
 
         <main class="hero">
@@ -202,9 +222,30 @@
         </footer>
     </div>
 
-    <audio autoplay muted loop preload="auto" style="display: none;">
+    <audio autoplay muted loop preload="auto" style="display: none;" id="bgm">
         <source src="BGM-国王大道（雪国仙境）.mp3" type="audio/mpeg">
         您的浏览器不支持音频播放。
     </audio>
+
+    <script>
+        const audio = document.getElementById('bgm');
+        const muteBtn = document.getElementById('muteBtn');
+
+        function updateButton() {
+            if (audio.muted) {
+                muteBtn.innerHTML = '🔇 静音';
+            } else {
+                muteBtn.innerHTML = '🔊 音乐';
+            }
+        }
+
+        muteBtn.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            updateButton();
+        });
+
+        // 初始化按钮状态
+        updateButton();
+    </script>
 </body>
 </html>
