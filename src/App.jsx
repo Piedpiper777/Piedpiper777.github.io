@@ -14,16 +14,16 @@ function App() {
           <p>{planData.startDate} 至 {planData.endDate} · 共 {planData.totalDays} 天</p>
           <nav>
             <button 
-              className={activeTab === 'plan' ? 'active' : ''} 
+              className={`nav-btn ${activeTab === 'plan' ? 'active' : ''}`} 
               onClick={() => setActiveTab('plan')}
             >
-              📅 训练计划
+              <span>📅 训练计划</span>
             </button>
             <button 
-              className={activeTab === 'notes' ? 'active' : ''} 
+              className={`nav-btn ${activeTab === 'notes' ? 'active' : ''}`} 
               onClick={() => setActiveTab('notes')}
             >
-              📝 学习记录
+              <span>📝 学习记录</span>
             </button>
           </nav>
         </div>

@@ -98,7 +98,7 @@ function NotesView() {
           ))}
         </select>
 
-        <button onClick={handleNewNote}>+ 新建笔记</button>
+        <button className="add-note-btn" onClick={handleNewNote}>+ 新建笔记</button>
       </div>
 
       {showEditor && (
