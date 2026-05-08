@@ -58,6 +58,8 @@ export const planData = {
       id: 1,
       stageId: 1,
       title: "Week 1：数组、哈希、双指针入门",
+      dateRange: "5/11 - 5/17",
+      dayRange: "Day 1-7",
       goals: [
         "恢复 Python/Java/C++ 编码手感",
         "熟悉常见数组与哈希题",
@@ -82,6 +84,8 @@ export const planData = {
       id: 2,
       stageId: 1,
       title: "Week 2：滑动窗口、前缀和、字符串基础",
+      dateRange: "5/18 - 5/24",
+      dayRange: "Day 8-14",
       goals: [
         "掌握连续子数组/子串类问题",
         "掌握前缀和 + 哈希表模板"
@@ -104,6 +108,8 @@ export const planData = {
       id: 3,
       stageId: 1,
       title: "Week 3：链表、栈、队列",
+      dateRange: "5/25 - 5/31",
+      dayRange: "Day 15-21",
       goals: [
         "掌握链表指针操作",
         "掌握栈/队列基础模板"
@@ -128,6 +134,8 @@ export const planData = {
       id: 4,
       stageId: 1,
       title: "Week 4：二叉树、DFS、BFS",
+      dateRange: "6/1 - 6/7",
+      dayRange: "Day 22-28",
       goals: [
         "掌握递归和迭代遍历",
         "掌握树上 DFS/BFS",
@@ -154,6 +162,10 @@ export const planData = {
       id: 5,
       stageId: 2,
       title: "Week 5：回溯",
+      dateRange: "6/8 - 6/14",
+      dayRange: "Day 29-35",
+      dateRange: "6/8 - 6/14",
+      dayRange: "Day 29-35",
       goals: [
         "掌握排列、组合、子集、分割四类问题",
         "固化 backtracking 模板"
@@ -181,6 +193,8 @@ export const planData = {
       id: 6,
       stageId: 2,
       title: "Week 6：贪心、区间问题、单调栈",
+      dateRange: "6/15 - 6/21",
+      dayRange: "Day 36-42",
       goals: [
         "掌握局部最优到全局最优的表达方式",
         "掌握区间排序问题",
@@ -208,6 +222,10 @@ export const planData = {
       id: 7,
       stageId: 2,
       title: "Week 7：动态规划 I：一维 DP 与路径 DP",
+      dateRange: "6/22 - 6/28",
+      dayRange: "Day 43-49",
+      dateRange: "6/22 - 6/28",
+      dayRange: "Day 43-49",
       goals: [
         "掌握 dp 数组含义、初始化、状态转移、遍历顺序",
         "不追求难题，先建立 DP 基础框架"
@@ -231,6 +249,8 @@ export const planData = {
       id: 8,
       stageId: 2,
       title: "Week 8：动态规划 II：背包、子序列、字符串 DP",
+      dateRange: "6/29 - 7/5",
+      dayRange: "Day 50-56",
       goals: [
         "掌握 0/1 背包、完全背包",
         "掌握子序列类 DP",
