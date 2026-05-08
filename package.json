@@ -4,11 +4,18 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/generate-blog.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/generate-blog.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "fuse.js": "^7.1.0",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-highlightjs": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

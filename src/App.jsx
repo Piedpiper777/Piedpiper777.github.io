@@ -1,10 +1,34 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { planData } from './data/planData'
 import PlanView from './components/PlanView'
-import NotesView from './components/NotesView'
+import BlogView from './components/blog/BlogView'
 
 function App() {
-  const [activeTab, setActiveTab] = useState('plan')
+  const getTabFromHash = () => {
+    const hash = window.location.hash || '#/plan'
+    return hash.startsWith('#/blog') ? 'blog' : 'plan'
+  }
+
+  const [activeTab, setActiveTab] = useState(getTabFromHash)
+
+  useEffect(() => {
+    if (!window.location.hash) {
+      window.location.hash = '#/plan'
+    }
+    const onHashChange = () => setActiveTab(getTabFromHash())
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
+  const switchToPlan = () => {
+    window.location.hash = '#/plan'
+    setActiveTab('plan')
+  }
+
+  const switchToBlog = () => {
+    window.location.hash = '#/blog'
+    setActiveTab('blog')
+  }
 
   return (
     <div className="app">
@@ -15,15 +39,15 @@ function App() {
           <nav>
             <button 
               className={`nav-btn ${activeTab === 'plan' ? 'active' : ''}`} 
-              onClick={() => setActiveTab('plan')}
+              onClick={switchToPlan}
             >
               <span>📅 训练计划</span>
             </button>
             <button 
-              className={`nav-btn ${activeTab === 'notes' ? 'active' : ''}`} 
-              onClick={() => setActiveTab('notes')}
+              className={`nav-btn ${activeTab === 'blog' ? 'active' : ''}`} 
+              onClick={switchToBlog}
             >
-              <span>📝 学习记录</span>
+              <span>📝 博客</span>
             </button>
           </nav>
         </div>
@@ -31,7 +55,7 @@ function App() {
 
       <main>
         {activeTab === 'plan' && <PlanView />}
-        {activeTab === 'notes' && <NotesView />}
+        {activeTab === 'blog' && <BlogView />}
       </main>
     </div>
   )

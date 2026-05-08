@@ -5,7 +5,7 @@
 ## 功能
 
 - 📅 **训练计划展示**：按阶段和周查看详细的学习计划
-- 📝 **学习记录**：记录每周的学习笔记
+- 📝 **博客系统**：基于 Markdown 的学习笔记/博客（标签、搜索、目录、上一篇/下一篇、RSS）
 
 ## 技术栈
 
@@ -32,6 +32,32 @@ npm run dev
 npm run build
 ```
 
+### 博客写作
+
+1. 在 `posts/` 下新增文章：`YYYY-MM-DD-slug.md`
+2. 使用 frontmatter：
+
+```md
+---
+title: "文章标题"
+date: "2026-05-20"
+tags: ["tag1", "tag2"]
+summary: "一句话摘要"
+draft: false
+---
+```
+
+3. 执行构建（会自动生成索引与 RSS）：
+
+```bash
+npm run build
+```
+
+生成文件：
+- `src/.generated/posts-index.json`
+- `src/.generated/posts-content.json`
+- `public/rss.xml`（构建后复制到 `dist/rss.xml`）
+
 ### 部署到 GitHub Pages
 
 每次推送代码到 `main` 分支，GitHub Actions 会自动部署到 `gh-pages` 分支。
@@ -54,12 +80,17 @@ https://piedpiper777.github.io
 │   ├── components/      # React 组件
 │   │   ├── PlanView.jsx    # 计划展示视图
 │   │   ├── WeekDetail.jsx  # 周详情组件
-│   │   └── NotesView.jsx   # 学习记录视图
+│   │   └── blog/           # 博客组件
 │   ├── data/
-│   │   └── planData.js     # 100天计划数据
+│   │   ├── planData.js     # 100天计划数据
+│   │   └── blogRuntime.js  # 博客运行时数据
+│   ├── .generated/         # 构建生成的博客索引
 │   ├── App.jsx          # 主应用组件
 │   ├── main.jsx         # 入口文件
 │   └── index.css        # 样式文件
+├── posts/               # Markdown 博客文章
+├── scripts/
+│   └── generate-blog.mjs   # 博客构建脚本
 ├── index.html           # HTML 模板
 ├── vite.config.js       # Vite 配置
 └── package.json         # 项目配置
