@@ -164,8 +164,6 @@ export const planData = {
       title: "Week 5：回溯",
       dateRange: "6/8 - 6/14",
       dayRange: "Day 29-35",
-      dateRange: "6/8 - 6/14",
-      dayRange: "Day 29-35",
       goals: [
         "掌握排列、组合、子集、分割四类问题",
         "固化 backtracking 模板"
@@ -224,8 +222,6 @@ export const planData = {
       title: "Week 7：动态规划 I：一维 DP 与路径 DP",
       dateRange: "6/22 - 6/28",
       dayRange: "Day 43-49",
-      dateRange: "6/22 - 6/28",
-      dayRange: "Day 43-49",
       goals: [
         "掌握 dp 数组含义、初始化、状态转移、遍历顺序",
         "不追求难题，先建立 DP 基础框架"
@@ -277,6 +273,8 @@ export const planData = {
       id: 9,
       stageId: 3,
       title: "Week 9：图论、BFS、DFS、并查集",
+      dateRange: "7/6 - 7/12",
+      dayRange: "Day 57-63",
       goals: [
         "掌握矩阵图、邻接表、BFS/DFS",
         "掌握并查集基本写法",
@@ -327,6 +325,8 @@ export const planData = {
       id: 11,
       stageId: 3,
       title: "Week 11：堆、TopK、排序、综合题",
+      dateRange: "7/20 - 7/26",
+      dayRange: "Day 71-77",
       goals: [
         "掌握优先队列",
         "掌握 TopK 问题",
@@ -398,6 +398,8 @@ export const planData = {
       id: 14,
       stageId: 4,
       title: "Week 14 + 最后 2 天：笔试模拟与外企英语强化",
+      dateRange: "8/10 - 8/18",
+      dayRange: "Day 92-100",
       goals: [
         "模拟真实笔试",
         "查漏补缺",
