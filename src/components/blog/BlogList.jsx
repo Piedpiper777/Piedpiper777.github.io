@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { allTags, archiveMap, searchPosts } from '../../data/blogRuntime'
+import { allTags, searchPosts, weekArchiveMap } from '../../data/blogRuntime'
 import BlogSearch from './BlogSearch'
 
 function highlightText(text, query) {
@@ -40,6 +40,29 @@ function BlogList() {
         allTags={allTags}
       />
 
+      <section className="write-entry">
+        <h3>✍️ 写博客入口</h3>
+        <p>本博客采用 Markdown 文件驱动：在仓库 <code>posts/</code> 下新增 <code>YYYY-MM-DD-slug.md</code> 即可发布。</p>
+        <div className="write-entry-actions">
+          <a
+            className="write-link-btn"
+            href="https://github.com/Piedpiper777/Piedpiper777.github.io/new/gh-pages/posts"
+            target="_blank"
+            rel="noreferrer"
+          >
+            在 GitHub 新建文章
+          </a>
+          <a
+            className="write-link-btn secondary"
+            href="https://github.com/Piedpiper777/Piedpiper777.github.io/tree/gh-pages/posts"
+            target="_blank"
+            rel="noreferrer"
+          >
+            查看所有文章源文件
+          </a>
+        </div>
+      </section>
+
       {!hasAnyPosts ? (
         <div className="empty-state">
           <h3>暂无文章</h3>
@@ -63,11 +86,13 @@ function BlogList() {
       )}
 
       <section className="archive-block">
-        <h3>归档</h3>
+        <h3>按 Week 归档</h3>
         <ul>
-          {Object.entries(archiveMap).map(([month, posts]) => (
-            <li key={month}>
-              <span>{month}</span>
+          {Object.entries(weekArchiveMap).map(([week, posts]) => (
+            <li key={week}>
+              <button type="button" className="archive-week-btn" onClick={() => setTag(week)}>
+                {week}
+              </button>
               <span>{posts.length} 篇</span>
             </li>
           ))}
