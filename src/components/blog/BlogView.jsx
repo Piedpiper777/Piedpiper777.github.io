@@ -6,7 +6,11 @@ function getCurrentSlug() {
   const hash = window.location.hash || '#/blog'
   const match = hash.match(/^#\/blog\/(.+)$/)
   if (!match) return null
-  return decodeURIComponent(match[1])
+  try {
+    return decodeURIComponent(match[1])
+  } catch {
+    return null
+  }
 }
 
 function BlogView() {

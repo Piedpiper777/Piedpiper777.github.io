@@ -40,7 +40,8 @@ function createMarkdownEngine() {
 
 function normalizeTags(tags, fileName) {
   if (!Array.isArray(tags)) fail(`${fileName}: tags must be an array`)
-  return tags.map((t) => String(t).trim()).filter(Boolean)
+  if (!tags.every((t) => typeof t === 'string')) fail(`${fileName}: every tag must be a string`)
+  return tags.map((t) => t.trim()).filter(Boolean)
 }
 
 function extractToc(tokens) {
@@ -70,7 +71,7 @@ function buildPost(fileName, md, usedSlugs) {
   const date = String(data.date || '').trim()
   const summary = String(data.summary || '').trim()
   const tags = normalizeTags(data.tags, fileName)
-  const draft = Boolean(data.draft)
+  const draft = data.draft === undefined ? false : data.draft
 
   if (!title) fail(`${fileName}: title is required`)
   if (!date) fail(`${fileName}: date is required`)
@@ -78,6 +79,7 @@ function buildPost(fileName, md, usedSlugs) {
   if (date !== dateFromName) fail(`${fileName}: date must match filename date (${dateFromName})`)
   if (!summary) fail(`${fileName}: summary is required`)
   if (tags.length === 0) fail(`${fileName}: tags must contain at least one tag`)
+  if (typeof draft !== 'boolean') fail(`${fileName}: draft must be boolean when provided`)
 
   const env = {}
   const tokens = md.parse(content, env)
@@ -127,17 +129,15 @@ function writeRss(posts) {
 }
 
 function main() {
-  if (!fs.existsSync(POSTS_DIR)) fail('posts/ directory does not exist')
-  const files = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith('.md')).sort()
-  if (files.length === 0) fail('No markdown posts found in posts/')
+  const files = fs.existsSync(POSTS_DIR)
+    ? fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith('.md')).sort()
+    : []
 
   const md = createMarkdownEngine()
   const usedSlugs = new Set()
   const posts = files.map((fileName) => buildPost(fileName, md, usedSlugs))
     .filter((p) => !p.draft)
     .sort((a, b) => (a.date < b.date ? 1 : -1))
-
-  if (posts.length === 0) fail('All posts are draft=true; at least one published post is required')
 
   const index = posts.map(({ html, toc, ...meta }) => meta)
   const content = posts.map(({ slug, html, toc }) => ({ slug, html, toc }))

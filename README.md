@@ -60,12 +60,14 @@ npm run build
 
 ### 部署到 GitHub Pages
 
-每次推送代码到 `main` 分支，GitHub Actions 会自动部署到 `gh-pages` 分支。
-
-手动部署：
+当前仓库采用 `gh-pages` 分支直接托管静态文件。更新后可手动部署：
 ```bash
 npm run build
-git subtree push --prefix dist origin gh-pages
+# PowerShell: 将构建产物同步到仓库根目录后再提交
+Copy-Item dist\index.html index.html -Force
+Remove-Item assets -Recurse -Force
+Copy-Item dist\assets assets -Recurse -Force
+Copy-Item dist\rss.xml rss.xml -Force
 ```
 
 ## 在线访问

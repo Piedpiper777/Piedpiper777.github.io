@@ -1,9 +1,23 @@
 import { useMemo, useState } from 'react'
 import { allTags, archiveMap, searchPosts } from '../../data/blogRuntime'
+import BlogSearch from './BlogSearch'
+
+function highlightText(text, query) {
+  const normalized = query.trim()
+  if (!normalized) return text
+  const escaped = normalized.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const re = new RegExp(`(${escaped})`, 'gi')
+  const parts = String(text).split(re)
+  const lower = normalized.toLowerCase()
+  return parts.map((part, idx) => (
+    part.toLowerCase() === lower ? <mark key={`${part}-${idx}`}>{part}</mark> : <span key={`${part}-${idx}`}>{part}</span>
+  ))
+}
 
 function BlogList() {
   const [query, setQuery] = useState('')
   const [tag, setTag] = useState('all')
+  const hasAnyPosts = searchPosts('').length > 0
 
   const filteredPosts = useMemo(() => {
     const searched = searchPosts(query)
@@ -18,23 +32,20 @@ function BlogList() {
         <a className="rss-link" href="./rss.xml" target="_blank" rel="noreferrer">RSS</a>
       </div>
 
-      <div className="blog-toolbar">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="搜索标题 / 标签 / 摘要"
-          aria-label="搜索文章"
-        />
-        <select value={tag} onChange={(e) => setTag(e.target.value)} aria-label="标签筛选">
-          <option value="all">全部标签</option>
-          {allTags.map((item) => (
-            <option key={item} value={item}>{item}</option>
-          ))}
-        </select>
-      </div>
+      <BlogSearch
+        query={query}
+        onQueryChange={setQuery}
+        tag={tag}
+        onTagChange={setTag}
+        allTags={allTags}
+      />
 
-      {filteredPosts.length === 0 ? (
+      {!hasAnyPosts ? (
+        <div className="empty-state">
+          <h3>暂无文章</h3>
+          <p>请先在 posts/ 目录新增 Markdown 文章。</p>
+        </div>
+      ) : filteredPosts.length === 0 ? (
         <div className="empty-state">
           <h3>没有匹配文章</h3>
           <p>换一个关键词或标签试试。</p>
@@ -43,8 +54,8 @@ function BlogList() {
         <ul className="post-list">
           {filteredPosts.map((post) => (
             <li key={post.slug} className="post-card" onClick={() => { window.location.hash = `#/blog/${encodeURIComponent(post.slug)}` }}>
-              <h3>{post.title}</h3>
-              <p>{post.summary}</p>
+              <h3>{highlightText(post.title, query)}</h3>
+              <p>{highlightText(post.summary, query)}</p>
               <div className="post-meta">{post.date} · {post.tags.join(' / ')}</div>
             </li>
           ))}
