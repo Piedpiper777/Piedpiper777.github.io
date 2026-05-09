@@ -29,7 +29,25 @@ function BlogList() {
     <section className="blog-view">
       <div className="blog-header">
         <h2>📝 博客</h2>
-        <a className="rss-link" href="./rss.xml" target="_blank" rel="noreferrer">RSS</a>
+        <div className="blog-action-group">
+          <a
+            className="action-btn primary"
+            href="https://github.com/Piedpiper777/Piedpiper777.github.io/new/gh-pages/posts"
+            target="_blank"
+            rel="noreferrer"
+          >
+            新建文章
+          </a>
+          <a
+            className="action-btn"
+            href="https://github.com/Piedpiper777/Piedpiper777.github.io/tree/gh-pages/posts/templates"
+            target="_blank"
+            rel="noreferrer"
+          >
+            模板库
+          </a>
+          <a className="action-btn" href="./rss.xml" target="_blank" rel="noreferrer">RSS</a>
+        </div>
       </div>
 
       <BlogSearch
@@ -39,29 +57,6 @@ function BlogList() {
         onTagChange={setTag}
         allTags={allTags}
       />
-
-      <section className="write-entry">
-        <h3>✍️ 写博客入口</h3>
-        <p>本博客采用 Markdown 文件驱动：在仓库 <code>posts/</code> 下新增 <code>YYYY-MM-DD-slug.md</code> 即可发布。</p>
-        <div className="write-entry-actions">
-          <a
-            className="write-link-btn"
-            href="https://github.com/Piedpiper777/Piedpiper777.github.io/new/gh-pages/posts"
-            target="_blank"
-            rel="noreferrer"
-          >
-            在 GitHub 新建文章
-          </a>
-          <a
-            className="write-link-btn secondary"
-            href="https://github.com/Piedpiper777/Piedpiper777.github.io/tree/gh-pages/posts"
-            target="_blank"
-            rel="noreferrer"
-          >
-            查看所有文章源文件
-          </a>
-        </div>
-      </section>
 
       {!hasAnyPosts ? (
         <div className="empty-state">
@@ -91,7 +86,7 @@ function BlogList() {
           {Object.entries(weekArchiveMap).map(([week, posts]) => (
             <li key={week}>
               <button type="button" className="archive-week-btn" onClick={() => setTag(week)}>
-                {week}
+                {week.replace('week', 'Week ')}
               </button>
               <span>{posts.length} 篇</span>
             </li>

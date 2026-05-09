@@ -58,6 +58,13 @@ npm run build
 - `src/.generated/posts-content.json`
 - `public/rss.xml`（构建后复制到 `dist/rss.xml`）
 
+### 预置模板
+
+可直接复制 `posts/templates/` 下模板开始写作：
+- `week-review-template.md`：周复盘
+- `problem-note-template.md`：一道题一个笔记（解题步骤 + 心得）
+- `topic-summary-template.md`：专题总结模板
+
 ### 部署到 GitHub Pages
 
 当前仓库采用 `gh-pages` 分支直接托管静态文件。更新后可手动部署：
