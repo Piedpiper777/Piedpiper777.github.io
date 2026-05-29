@@ -5,25 +5,7 @@ const ROOT = process.cwd()
 const DIST = path.join(ROOT, 'dist')
 
 // Deployment artifacts to clean before copying dist
-const DEPLOY_ARTIFACTS = ['assets', 'rss.xml', '.nojekyll']
-
-function cleanDeployArtifacts() {
-  for (const name of DEPLOY_ARTIFACTS) {
-    const fullPath = path.join(ROOT, name)
-    if (fs.existsSync(fullPath)) {
-      fs.rmSync(fullPath, { recursive: true, force: true })
-    }
-  }
-}
-
-function copyDist() {
-  const entries = fs.readdirSync(DIST)
-  for (const entry of entries) {
-    const src = path.join(DIST, entry)
-    const dest = path.join(ROOT, entry)
-    fs.cpSync(src, dest, { recursive: true })
-  }
-}
+const ARTIFACTS = ['assets', 'index.html', 'rss.xml', '.nojekyll']
 
 function main() {
   if (!fs.existsSync(DIST)) {
@@ -31,20 +13,31 @@ function main() {
     process.exit(1)
   }
 
-  // Save source index.html
-  const sourceIndex = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8')
+  // Remove old deployment artifacts
+  for (const name of ARTIFACTS) {
+    const full = path.join(ROOT, name)
+    if (fs.existsSync(full)) {
+      fs.rmSync(full, { recursive: true, force: true })
+    }
+  }
 
-  cleanDeployArtifacts()
-  copyDist()
+  // Copy dist to root
+  for (const entry of fs.readdirSync(DIST)) {
+    fs.cpSync(path.join(DIST, entry), path.join(ROOT, entry), { recursive: true })
+  }
 
-  // Restore source index.html (Vite entry point for dev)
-  fs.writeFileSync(path.join(ROOT, 'index.html'), sourceIndex)
+  // Rename index-dev.html to index.html for GitHub Pages
+  const devHtml = path.join(ROOT, 'index-dev.html')
+  const mainHtml = path.join(ROOT, 'index.html')
+  if (fs.existsSync(devHtml)) {
+    fs.renameSync(devHtml, mainHtml)
+  }
 
-  // Write .nojekyll for GitHub Pages
+  // .nojekyll for GitHub Pages
   fs.writeFileSync(path.join(ROOT, '.nojekyll'), '')
 
   console.log('Deployed dist/ to root for GitHub Pages.')
-  console.log('Source index.html restored for development.')
+  console.log('Source entry: index-dev.html')
 }
 
 main()
