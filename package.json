@@ -8,7 +8,8 @@
     "dev": "vite",
     "prebuild": "node scripts/generate-blog.mjs",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && node scripts/deploy.mjs"
   },
   "dependencies": {
     "fuse.js": "^7.1.0",

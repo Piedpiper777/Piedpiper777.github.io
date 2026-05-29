@@ -1,61 +1,69 @@
 import { useEffect, useState } from 'react'
-import { planData } from './data/planData'
+import HomeView from './components/HomeView'
+import AboutView from './components/AboutView'
 import PlanView from './components/PlanView'
 import BlogView from './components/blog/BlogView'
+import DiaryView from './components/DiaryView'
+import LeetcodeView from './components/LeetcodeView'
+
+function getRouteFromHash() {
+  const hash = window.location.hash || '#/'
+  if (hash === '#/' || hash === '#') return 'home'
+  if (hash.startsWith('#/about')) return 'about'
+  if (hash.startsWith('#/blog')) return 'blog'
+  if (hash.startsWith('#/diary')) return 'diary'
+  if (hash.startsWith('#/leetcode')) return 'leetcode'
+  if (hash.startsWith('#/plan')) return 'plan'
+  return 'home'
+}
+
+const navItems = [
+  { key: 'home', hash: '#/', label: '🏠 首页' },
+  { key: 'about', hash: '#/about', label: '👤 关于我' },
+  { key: 'blog', hash: '#/blog', label: '📝 博客' },
+  { key: 'diary', hash: '#/diary', label: '📖 学习日记' },
+  { key: 'leetcode', hash: '#/leetcode', label: '💻 刷题记录' },
+  { key: 'plan', hash: '#/plan', label: '📅 训练计划' },
+]
 
 function App() {
-  const getTabFromHash = () => {
-    const hash = window.location.hash || '#/plan'
-    return hash.startsWith('#/blog') ? 'blog' : 'plan'
-  }
-
-  const [activeTab, setActiveTab] = useState(getTabFromHash)
+  const [route, setRoute] = useState(getRouteFromHash)
 
   useEffect(() => {
     if (!window.location.hash) {
-      window.location.hash = '#/plan'
+      window.location.hash = '#/'
     }
-    const onHashChange = () => setActiveTab(getTabFromHash())
+    const onHashChange = () => setRoute(getRouteFromHash())
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
-
-  const switchToPlan = () => {
-    window.location.hash = '#/plan'
-    setActiveTab('plan')
-  }
-
-  const switchToBlog = () => {
-    window.location.hash = '#/blog'
-    setActiveTab('blog')
-  }
 
   return (
     <div className="app">
       <header>
         <div className="header-content">
-          <h1>{planData.title}</h1>
-          <p>{planData.startDate} 至 {planData.endDate} · 共 {planData.totalDays} 天</p>
+          <h1 onClick={() => { window.location.hash = '#/' }} style={{ cursor: 'pointer' }}>Pied Piper</h1>
           <nav>
-            <button 
-              className={`nav-btn ${activeTab === 'plan' ? 'active' : ''}`} 
-              onClick={switchToPlan}
-            >
-              <span>📅 训练计划</span>
-            </button>
-            <button 
-              className={`nav-btn ${activeTab === 'blog' ? 'active' : ''}`} 
-              onClick={switchToBlog}
-            >
-              <span>📝 博客</span>
-            </button>
+            {navItems.map((item) => (
+              <button
+                key={item.key}
+                className={`nav-btn ${route === item.key ? 'active' : ''}`}
+                onClick={() => { window.location.hash = item.hash }}
+              >
+                <span>{item.label}</span>
+              </button>
+            ))}
           </nav>
         </div>
       </header>
 
       <main>
-        {activeTab === 'plan' && <PlanView />}
-        {activeTab === 'blog' && <BlogView />}
+        {route === 'home' && <HomeView />}
+        {route === 'about' && <AboutView />}
+        {route === 'plan' && <PlanView />}
+        {route === 'blog' && <BlogView />}
+        {route === 'diary' && <DiaryView />}
+        {route === 'leetcode' && <LeetcodeView />}
       </main>
     </div>
   )
