@@ -2,8 +2,8 @@ import { aboutData } from '../data/aboutData'
 
 function HomeView() {
   return (
-    <section className="home-view">
-      <div className="home-hero">
+    <div className="home-view">
+      <aside className="home-profile">
         <div className="home-avatar">
           <img src={aboutData.avatar} alt={aboutData.name} />
         </div>
@@ -16,9 +16,9 @@ function HomeView() {
             </a>
           ))}
         </div>
-      </div>
+      </aside>
 
-      <div className="home-nav-grid">
+      <div className="home-nav">
         <a href="#/about" className="home-nav-card">
           <span className="home-nav-icon">👤</span>
           <span className="home-nav-title">关于我</span>
@@ -45,7 +45,7 @@ function HomeView() {
           <span className="home-nav-desc">100天刷题与英语训练</span>
         </a>
       </div>
-    </section>
+    </div>
   )
 }
 
