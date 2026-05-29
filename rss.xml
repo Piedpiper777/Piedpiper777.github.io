@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-  <channel>
-    <title>100天刷题计划与学习记录</title>
-    <link>https://piedpiper777.github.io</link>
-    <description>学习计划与复盘博客</description>
-    <item><title><![CDATA[Week 2 复盘：滑动窗口与前缀和]]></title><link>https://piedpiper777.github.io/#/blog/week2-review</link><guid>https://piedpiper777.github.io/#/blog/week2-review</guid><description><![CDATA[总结滑动窗口缩放条件、前缀和哈希模板与常见陷阱。]]></description><pubDate>Tue, 19 May 2026 00:00:00 GMT</pubDate></item><item><title><![CDATA[Week 1 复盘：数组与双指针]]></title><link>https://piedpiper777.github.io/#/blog/week1-review</link><guid>https://piedpiper777.github.io/#/blog/week1-review</guid><description><![CDATA[记录第一周题型覆盖、典型错因和下周改进计划。]]></description><pubDate>Tue, 12 May 2026 00:00:00 GMT</pubDate></item>
-  </channel>
-</rss>

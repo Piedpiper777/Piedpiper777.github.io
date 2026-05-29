@@ -1,6 +1,0 @@
-[
-  {
-    "slug": "homepage-upgrade",
-    "html": "<h2 id=\"今日完成\" tabindex=\"-1\">今日完成</h2>\n<ul>\n<li>完善了个人主页，新增了关于我、学习日记、LeetCode统计等板块</li>\n<li>学习了 React 的 hash 路由实现方式</li>\n<li>刷了 2 道 LeetCode 中等题</li>\n</ul>\n<h2 id=\"学习笔记\" tabindex=\"-1\">学习笔记</h2>\n<p>今天主要在做个人主页的升级工作。之前主页只有刷题计划和博客两个功能，现在扩展成了一个更完整的个人主页。</p>\n<p>技术栈还是 React + Vite，没有引入新的框架，保持了项目的简洁性。</p>\n<h2 id=\"明天计划\" tabindex=\"-1\">明天计划</h2>\n<ul>\n<li>继续完善主页的样式细节</li>\n<li>刷 3 道 LeetCode</li>\n<li>阅读一篇关于 Multi-Agent 的论文</li>\n</ul>\n"
-  }
-]
